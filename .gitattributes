@@ -2,7 +2,6 @@
 * text=auto
 
 # Custom for Visual Studio
-*.VC.db
 *.cs     diff=csharp
 
 # Standard to msysgit
