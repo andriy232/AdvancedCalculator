@@ -125,6 +125,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="form.cpp" />
     <ClCompile Include="main.cpp" />
   </ItemGroup>
   <ItemGroup>
@@ -138,6 +139,7 @@
     <ClInclude Include="form.h">
       <FileType>CppForm</FileType>
     </ClInclude>
+    <ClInclude Include="History.h" />
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="form.resx">

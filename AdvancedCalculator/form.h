@@ -1,6 +1,9 @@
 ﻿#pragma once
 #include <msclr\marshal_cppstd.h>
 #include <vcclr.h>
+#include <fstream>
+#include <iostream>
+#include "History.h"
 
 namespace AdvancedCalculator {
 	using namespace System::Runtime::InteropServices;
@@ -14,6 +17,9 @@ namespace AdvancedCalculator {
 	/// <summary>
 	/// Summary for form
 	/// </summary>
+
+
+
 	public ref class form : public System::Windows::Forms::Form
 	{
 	public:
@@ -53,7 +59,7 @@ namespace AdvancedCalculator {
 	private: System::Windows::Forms::Button^  btnFib;
 	private: System::Windows::Forms::Button^  btnMed;
 	private: System::Windows::Forms::Button^  btnDeg;
-	private: System::Windows::Forms::Label^  lbl;
+
 	private: System::Windows::Forms::DataGridView^  dgv;
 	private: System::Windows::Forms::Label^  lblInfo;
 	private: System::Windows::Forms::Button^  btnDelLast;
@@ -64,6 +70,10 @@ namespace AdvancedCalculator {
 	private: System::Windows::Forms::Button^  btnPlus;
 	private: System::Windows::Forms::Button^  btnEq;
 	private: System::Windows::Forms::Button^  btnRoot;
+	private: System::Windows::Forms::ListBox^  lstBox;
+	private: System::Windows::Forms::Label^  lblHistory;
+	private: System::Windows::Forms::Button^  btnClear;
+
 
 
 	protected:
@@ -105,11 +115,13 @@ namespace AdvancedCalculator {
 			this->btnPlus = (gcnew System::Windows::Forms::Button());
 			this->btnEq = (gcnew System::Windows::Forms::Button());
 			this->btnMed = (gcnew System::Windows::Forms::Button());
-			this->lbl = (gcnew System::Windows::Forms::Label());
 			this->dgv = (gcnew System::Windows::Forms::DataGridView());
 			this->lblInfo = (gcnew System::Windows::Forms::Label());
 			this->btnDelLast = (gcnew System::Windows::Forms::Button());
 			this->btnDelAll = (gcnew System::Windows::Forms::Button());
+			this->lstBox = (gcnew System::Windows::Forms::ListBox());
+			this->lblHistory = (gcnew System::Windows::Forms::Label());
+			this->btnClear = (gcnew System::Windows::Forms::Button());
 			this->tableLayoutPanel1->SuspendLayout();
 			(cli::safe_cast<System::ComponentModel::ISupportInitialize^>(this->dgv))->BeginInit();
 			this->SuspendLayout();
@@ -119,18 +131,20 @@ namespace AdvancedCalculator {
 			this->txtBox->BorderStyle = System::Windows::Forms::BorderStyle::None;
 			this->txtBox->Font = (gcnew System::Drawing::Font(L"Microsoft Sans Serif", 15.75F, System::Drawing::FontStyle::Regular, System::Drawing::GraphicsUnit::Point,
 				static_cast<System::Byte>(204)));
-			this->txtBox->Location = System::Drawing::Point(12, 49);
+			this->txtBox->Location = System::Drawing::Point(40, 44);
 			this->txtBox->Multiline = true;
 			this->txtBox->Name = L"txtBox";
 			this->txtBox->RightToLeft = System::Windows::Forms::RightToLeft::Yes;
 			this->txtBox->Size = System::Drawing::Size(182, 26);
 			this->txtBox->TabIndex = 0;
+			this->txtBox->TabStop = false;
+			this->txtBox->TextChanged += gcnew System::EventHandler(this, &form::txtBox_TextChanged);
 			// 
 			// btn1
 			// 
 			this->btn1->Location = System::Drawing::Point(3, 129);
 			this->btn1->Name = L"btn1";
-			this->btn1->Size = System::Drawing::Size(38, 36);
+			this->btn1->Size = System::Drawing::Size(37, 36);
 			this->btn1->TabIndex = 1;
 			this->btn1->Text = L"1";
 			this->btn1->UseVisualStyleBackColor = true;
@@ -147,7 +161,7 @@ namespace AdvancedCalculator {
 			this->tableLayoutPanel1->ColumnStyles->Add((gcnew System::Windows::Forms::ColumnStyle(System::Windows::Forms::SizeType::Absolute,
 				47)));
 			this->tableLayoutPanel1->ColumnStyles->Add((gcnew System::Windows::Forms::ColumnStyle(System::Windows::Forms::SizeType::Absolute,
-				43)));
+				44)));
 			this->tableLayoutPanel1->Controls->Add(this->btnSign, 0, 4);
 			this->tableLayoutPanel1->Controls->Add(this->btn1, 0, 3);
 			this->tableLayoutPanel1->Controls->Add(this->btn4, 0, 2);
@@ -168,7 +182,7 @@ namespace AdvancedCalculator {
 			this->tableLayoutPanel1->Controls->Add(this->btnMin, 3, 2);
 			this->tableLayoutPanel1->Controls->Add(this->btnPlus, 3, 3);
 			this->tableLayoutPanel1->Controls->Add(this->btnEq, 3, 4);
-			this->tableLayoutPanel1->Location = System::Drawing::Point(12, 81);
+			this->tableLayoutPanel1->Location = System::Drawing::Point(15, 81);
 			this->tableLayoutPanel1->Name = L"tableLayoutPanel1";
 			this->tableLayoutPanel1->RowCount = 5;
 			this->tableLayoutPanel1->RowStyles->Add((gcnew System::Windows::Forms::RowStyle()));
@@ -176,14 +190,14 @@ namespace AdvancedCalculator {
 			this->tableLayoutPanel1->RowStyles->Add((gcnew System::Windows::Forms::RowStyle()));
 			this->tableLayoutPanel1->RowStyles->Add((gcnew System::Windows::Forms::RowStyle()));
 			this->tableLayoutPanel1->RowStyles->Add((gcnew System::Windows::Forms::RowStyle(System::Windows::Forms::SizeType::Absolute, 20)));
-			this->tableLayoutPanel1->Size = System::Drawing::Size(182, 227);
+			this->tableLayoutPanel1->Size = System::Drawing::Size(177, 227);
 			this->tableLayoutPanel1->TabIndex = 2;
 			// 
 			// btnSign
 			// 
 			this->btnSign->Location = System::Drawing::Point(3, 171);
 			this->btnSign->Name = L"btnSign";
-			this->btnSign->Size = System::Drawing::Size(38, 36);
+			this->btnSign->Size = System::Drawing::Size(37, 36);
 			this->btnSign->TabIndex = 11;
 			this->btnSign->Text = L"+/-";
 			this->btnSign->UseVisualStyleBackColor = true;
@@ -193,7 +207,7 @@ namespace AdvancedCalculator {
 			// 
 			this->btn4->Location = System::Drawing::Point(3, 87);
 			this->btn4->Name = L"btn4";
-			this->btn4->Size = System::Drawing::Size(38, 36);
+			this->btn4->Size = System::Drawing::Size(37, 36);
 			this->btn4->TabIndex = 6;
 			this->btn4->Text = L"4";
 			this->btn4->UseVisualStyleBackColor = true;
@@ -203,7 +217,7 @@ namespace AdvancedCalculator {
 			// 
 			this->btn7->Location = System::Drawing::Point(3, 45);
 			this->btn7->Name = L"btn7";
-			this->btn7->Size = System::Drawing::Size(38, 36);
+			this->btn7->Size = System::Drawing::Size(37, 36);
 			this->btn7->TabIndex = 7;
 			this->btn7->Text = L"7";
 			this->btn7->UseVisualStyleBackColor = true;
@@ -211,9 +225,9 @@ namespace AdvancedCalculator {
 			// 
 			// btn0
 			// 
-			this->btn0->Location = System::Drawing::Point(49, 171);
+			this->btn0->Location = System::Drawing::Point(46, 171);
 			this->btn0->Name = L"btn0";
-			this->btn0->Size = System::Drawing::Size(38, 36);
+			this->btn0->Size = System::Drawing::Size(37, 36);
 			this->btn0->TabIndex = 10;
 			this->btn0->Text = L"0";
 			this->btn0->UseVisualStyleBackColor = true;
@@ -221,9 +235,9 @@ namespace AdvancedCalculator {
 			// 
 			// btn2
 			// 
-			this->btn2->Location = System::Drawing::Point(49, 129);
+			this->btn2->Location = System::Drawing::Point(46, 129);
 			this->btn2->Name = L"btn2";
-			this->btn2->Size = System::Drawing::Size(38, 36);
+			this->btn2->Size = System::Drawing::Size(37, 36);
 			this->btn2->TabIndex = 2;
 			this->btn2->Text = L"2";
 			this->btn2->UseVisualStyleBackColor = true;
@@ -231,9 +245,9 @@ namespace AdvancedCalculator {
 			// 
 			// btn5
 			// 
-			this->btn5->Location = System::Drawing::Point(49, 87);
+			this->btn5->Location = System::Drawing::Point(46, 87);
 			this->btn5->Name = L"btn5";
-			this->btn5->Size = System::Drawing::Size(38, 36);
+			this->btn5->Size = System::Drawing::Size(37, 36);
 			this->btn5->TabIndex = 4;
 			this->btn5->Text = L"5";
 			this->btn5->UseVisualStyleBackColor = true;
@@ -241,9 +255,9 @@ namespace AdvancedCalculator {
 			// 
 			// btnRoot
 			// 
-			this->btnRoot->Location = System::Drawing::Point(49, 3);
+			this->btnRoot->Location = System::Drawing::Point(46, 3);
 			this->btnRoot->Name = L"btnRoot";
-			this->btnRoot->Size = System::Drawing::Size(38, 36);
+			this->btnRoot->Size = System::Drawing::Size(37, 36);
 			this->btnRoot->TabIndex = 14;
 			this->btnRoot->Text = L"√";
 			this->btnRoot->UseVisualStyleBackColor = true;
@@ -251,9 +265,9 @@ namespace AdvancedCalculator {
 			// 
 			// btn8
 			// 
-			this->btn8->Location = System::Drawing::Point(49, 45);
+			this->btn8->Location = System::Drawing::Point(46, 45);
 			this->btn8->Name = L"btn8";
-			this->btn8->Size = System::Drawing::Size(38, 36);
+			this->btn8->Size = System::Drawing::Size(37, 36);
 			this->btn8->TabIndex = 9;
 			this->btn8->Text = L"8";
 			this->btn8->UseVisualStyleBackColor = true;
@@ -261,7 +275,7 @@ namespace AdvancedCalculator {
 			// 
 			// btnDot
 			// 
-			this->btnDot->Location = System::Drawing::Point(95, 171);
+			this->btnDot->Location = System::Drawing::Point(89, 171);
 			this->btnDot->Name = L"btnDot";
 			this->btnDot->Size = System::Drawing::Size(38, 36);
 			this->btnDot->TabIndex = 12;
@@ -271,7 +285,7 @@ namespace AdvancedCalculator {
 			// 
 			// btn3
 			// 
-			this->btn3->Location = System::Drawing::Point(95, 129);
+			this->btn3->Location = System::Drawing::Point(89, 129);
 			this->btn3->Name = L"btn3";
 			this->btn3->Size = System::Drawing::Size(38, 36);
 			this->btn3->TabIndex = 3;
@@ -281,7 +295,7 @@ namespace AdvancedCalculator {
 			// 
 			// btn6
 			// 
-			this->btn6->Location = System::Drawing::Point(95, 87);
+			this->btn6->Location = System::Drawing::Point(89, 87);
 			this->btn6->Name = L"btn6";
 			this->btn6->Size = System::Drawing::Size(38, 36);
 			this->btn6->TabIndex = 5;
@@ -293,7 +307,7 @@ namespace AdvancedCalculator {
 			// 
 			this->btnFib->Location = System::Drawing::Point(3, 3);
 			this->btnFib->Name = L"btnFib";
-			this->btnFib->Size = System::Drawing::Size(38, 36);
+			this->btnFib->Size = System::Drawing::Size(37, 36);
 			this->btnFib->TabIndex = 13;
 			this->btnFib->Text = L"Fib";
 			this->btnFib->UseVisualStyleBackColor = true;
@@ -301,7 +315,7 @@ namespace AdvancedCalculator {
 			// 
 			// btn9
 			// 
-			this->btn9->Location = System::Drawing::Point(95, 45);
+			this->btn9->Location = System::Drawing::Point(89, 45);
 			this->btn9->Name = L"btn9";
 			this->btn9->Size = System::Drawing::Size(38, 36);
 			this->btn9->TabIndex = 8;
@@ -311,7 +325,7 @@ namespace AdvancedCalculator {
 			// 
 			// btnDeg
 			// 
-			this->btnDeg->Location = System::Drawing::Point(95, 3);
+			this->btnDeg->Location = System::Drawing::Point(89, 3);
 			this->btnDeg->Name = L"btnDeg";
 			this->btnDeg->Size = System::Drawing::Size(38, 36);
 			this->btnDeg->TabIndex = 15;
@@ -321,7 +335,7 @@ namespace AdvancedCalculator {
 			// 
 			// btnDiv
 			// 
-			this->btnDiv->Location = System::Drawing::Point(142, 3);
+			this->btnDiv->Location = System::Drawing::Point(136, 3);
 			this->btnDiv->Name = L"btnDiv";
 			this->btnDiv->Size = System::Drawing::Size(37, 36);
 			this->btnDiv->TabIndex = 8;
@@ -331,7 +345,7 @@ namespace AdvancedCalculator {
 			// 
 			// btnMulti
 			// 
-			this->btnMulti->Location = System::Drawing::Point(142, 45);
+			this->btnMulti->Location = System::Drawing::Point(136, 45);
 			this->btnMulti->Name = L"btnMulti";
 			this->btnMulti->Size = System::Drawing::Size(37, 36);
 			this->btnMulti->TabIndex = 8;
@@ -341,7 +355,7 @@ namespace AdvancedCalculator {
 			// 
 			// btnMin
 			// 
-			this->btnMin->Location = System::Drawing::Point(142, 87);
+			this->btnMin->Location = System::Drawing::Point(136, 87);
 			this->btnMin->Name = L"btnMin";
 			this->btnMin->Size = System::Drawing::Size(37, 36);
 			this->btnMin->TabIndex = 8;
@@ -351,7 +365,7 @@ namespace AdvancedCalculator {
 			// 
 			// btnPlus
 			// 
-			this->btnPlus->Location = System::Drawing::Point(142, 129);
+			this->btnPlus->Location = System::Drawing::Point(136, 129);
 			this->btnPlus->Name = L"btnPlus";
 			this->btnPlus->Size = System::Drawing::Size(37, 36);
 			this->btnPlus->TabIndex = 8;
@@ -361,7 +375,7 @@ namespace AdvancedCalculator {
 			// 
 			// btnEq
 			// 
-			this->btnEq->Location = System::Drawing::Point(142, 171);
+			this->btnEq->Location = System::Drawing::Point(136, 171);
 			this->btnEq->Name = L"btnEq";
 			this->btnEq->Size = System::Drawing::Size(37, 36);
 			this->btnEq->TabIndex = 8;
@@ -379,14 +393,6 @@ namespace AdvancedCalculator {
 			this->btnMed->UseVisualStyleBackColor = true;
 			this->btnMed->Click += gcnew System::EventHandler(this, &form::btnMed_Click);
 			// 
-			// lbl
-			// 
-			this->lbl->AutoSize = true;
-			this->lbl->Location = System::Drawing::Point(12, 18);
-			this->lbl->Name = L"lbl";
-			this->lbl->Size = System::Drawing::Size(0, 13);
-			this->lbl->TabIndex = 3;
-			// 
 			// dgv
 			// 
 			this->dgv->AllowUserToAddRows = false;
@@ -397,7 +403,7 @@ namespace AdvancedCalculator {
 			this->dgv->ColumnHeadersHeightSizeMode = System::Windows::Forms::DataGridViewColumnHeadersHeightSizeMode::AutoSize;
 			this->dgv->Location = System::Drawing::Point(12, 336);
 			this->dgv->Name = L"dgv";
-			this->dgv->Size = System::Drawing::Size(302, 47);
+			this->dgv->Size = System::Drawing::Size(180, 47);
 			this->dgv->TabIndex = 4;
 			this->dgv->CellBeginEdit += gcnew System::Windows::Forms::DataGridViewCellCancelEventHandler(this, &form::dgv_CellBeginEdit);
 			this->dgv->CellEndEdit += gcnew System::Windows::Forms::DataGridViewCellEventHandler(this, &form::dgv_CellEndEdit);
@@ -430,17 +436,46 @@ namespace AdvancedCalculator {
 			this->btnDelAll->UseVisualStyleBackColor = true;
 			this->btnDelAll->Click += gcnew System::EventHandler(this, &form::btnDelAll_Click);
 			// 
+			// lstBox
+			// 
+			this->lstBox->BorderStyle = System::Windows::Forms::BorderStyle::None;
+			this->lstBox->FormattingEnabled = true;
+			this->lstBox->Location = System::Drawing::Point(228, 29);
+			this->lstBox->Name = L"lstBox";
+			this->lstBox->Size = System::Drawing::Size(120, 91);
+			this->lstBox->TabIndex = 15;
+			// 
+			// lblHistory
+			// 
+			this->lblHistory->AutoSize = true;
+			this->lblHistory->Location = System::Drawing::Point(225, 10);
+			this->lblHistory->Name = L"lblHistory";
+			this->lblHistory->Size = System::Drawing::Size(39, 13);
+			this->lblHistory->TabIndex = 16;
+			this->lblHistory->Text = L"History";
+			// 
+			// btnClear
+			// 
+			this->btnClear->Location = System::Drawing::Point(-4, 34);
+			this->btnClear->Name = L"btnClear";
+			this->btnClear->Size = System::Drawing::Size(38, 36);
+			this->btnClear->TabIndex = 16;
+			this->btnClear->Text = L"C";
+			this->btnClear->UseVisualStyleBackColor = true;
+			// 
 			// form
 			// 
 			this->AutoScaleDimensions = System::Drawing::SizeF(6, 13);
 			this->AutoScaleMode = System::Windows::Forms::AutoScaleMode::Font;
 			this->BackColor = System::Drawing::SystemColors::Window;
-			this->ClientSize = System::Drawing::Size(330, 446);
+			this->ClientSize = System::Drawing::Size(385, 446);
+			this->Controls->Add(this->btnClear);
+			this->Controls->Add(this->lblHistory);
+			this->Controls->Add(this->lstBox);
 			this->Controls->Add(this->btnDelAll);
 			this->Controls->Add(this->btnDelLast);
 			this->Controls->Add(this->lblInfo);
 			this->Controls->Add(this->dgv);
-			this->Controls->Add(this->lbl);
 			this->Controls->Add(this->tableLayoutPanel1);
 			this->Controls->Add(this->txtBox);
 			this->Controls->Add(this->btnMed);
@@ -457,6 +492,10 @@ namespace AdvancedCalculator {
 
 		}
 #pragma endregion
+
+
+
+
 
 private: System::Void btn0_Click(System::Object^  sender, System::EventArgs^  e) {
 	txtBox->Text += "0";
@@ -488,18 +527,29 @@ private: System::Void btn8_Click(System::Object^  sender, System::EventArgs^  e)
 private: System::Void btn9_Click(System::Object^  sender, System::EventArgs^  e) {
 	txtBox->Text += "9";
 }
+		 History historyObj;
 private: System::Void btnRoot_Click(System::Object^  sender, System::EventArgs^  e) {
+	historyObj.create("root", Convert::ToDouble(txtBox->Text));
 	if (txtBox->Text != "") {
 		txtBox->Text = Convert::ToString(Math::Sqrt(Convert::ToDouble(txtBox->Text)));
 	}
+	
 }
-		 int action;
-private: System::Void btnDeg_Click(System::Object^  sender, System::EventArgs^  e) {
-	action = 5;//raise in the degree
-	if (txtBox->Text != "")
+int action;
+private: System::Void btnPlus_Click(System::Object^  sender, System::EventArgs^  e) {
+	action = 1;//button for plus
+	if (txtBox->Text)
 		txtBox->Tag = txtBox->Text;
 	txtBox->Text = "";
 };
+
+private: System::Void btnMin_Click(System::Object^  sender, System::EventArgs^  e) {
+	action = 2;//button for minus
+	if (txtBox->Text)
+		txtBox->Tag = txtBox->Text;
+	txtBox->Text = "";
+};
+
 private: System::Void btnDiv_Click(System::Object^  sender, System::EventArgs^  e) {
 	action = 3;//button for dividing 
 	if (txtBox->Text)
@@ -512,38 +562,39 @@ private: System::Void btnMulti_Click(System::Object^  sender, System::EventArgs^
 		txtBox->Tag = txtBox->Text;
 	txtBox->Text = "";
 };
-private: System::Void btnMin_Click(System::Object^  sender, System::EventArgs^  e) {
-	action = 2;//button for minus
-	if (txtBox->Text)
+private: System::Void btnDeg_Click(System::Object^  sender, System::EventArgs^  e) {
+	action = 5;//raise in the degree
+	if (txtBox->Text != "")
 		txtBox->Tag = txtBox->Text;
 	txtBox->Text = "";
 };
-private: System::Void btnPlus_Click(System::Object^  sender, System::EventArgs^  e) {
-	action = 1;//button for plus
-	if (txtBox->Text)
-		txtBox->Tag = txtBox->Text;
-	txtBox->Text = "";
-};
+
 private: System::Void btnEq_Click(System::Object^  sender, System::EventArgs^  e) {
 	//equal symbol
 	double text = Convert::ToDouble(txtBox->Text);
 	double tag = Convert::ToDouble(txtBox->Tag);
+
 	switch (action)
 	{
-	case 1:
+	case 1://plus operation
+		historyObj.create(Convert::ToDouble(txtBox->Tag), "+", Convert::ToDouble(txtBox->Text));
 		txtBox->Text = Convert::ToString(text + tag);
 		break;
-	case 2:
+	case 2://minus operation
+		historyObj.create(Convert::ToDouble(txtBox->Tag), "-", Convert::ToDouble(txtBox->Text));
 		txtBox->Text = Convert::ToString(tag - text);
 		break;
-	case 3:
+	case 3://divide operation
+		historyObj.create(Convert::ToDouble(txtBox->Tag), "/", Convert::ToDouble(txtBox->Text));
 		if (tag != 0)
 			txtBox->Text = Convert::ToString(tag / text);
 		break;
-	case 4:
+	case 4://multiply operation
+		historyObj.create(Convert::ToDouble(txtBox->Tag), "*", Convert::ToDouble(txtBox->Text));
 		txtBox->Text = Convert::ToString(text * tag);
 		break;
-	case 5:
+	case 5://degree operation
+		historyObj.create(Convert::ToDouble(txtBox->Tag), "^", Convert::ToDouble(txtBox->Text));
 		txtBox->Text = Convert::ToString(Math::Pow(tag, text));
 		break;
 	}
@@ -551,9 +602,10 @@ private: System::Void btnEq_Click(System::Object^  sender, System::EventArgs^  e
 
 private: System::Void btnFib_Click(System::Object^  sender, System::EventArgs^  e) {
 	//button to calculate fibonacci element
+	historyObj.create("fib", Convert::ToDouble(txtBox->Text));
 	double num = Convert::ToDouble(txtBox->Text);
 	if (num > 48) {
-		lbl->Text = Convert::ToString("Max Fibonacci element more than 47!");
+		MessageBox::Show(Convert::ToString("Max Fibonacci element more than 47!"));
 	} else {
 		txtBox->Text = Convert::ToString(fibonaccy(num));
 	}
@@ -656,14 +708,16 @@ private: System::Void dgv_CellEndEdit(System::Object^  sender, System::Windows::
 
 }
 private: System::Void form_Load(System::Object^  sender, System::EventArgs^  e) {
-	txtBox->Text += Convert::ToString("0");
+	//Loading form
+	txtBox->Text = Convert::ToString("0");
 	dgv->TopLeftHeaderCell->Value = "Numbers";
 	dgv->ColumnCount = 2;
 	dgv->Columns[0]->HeaderCell->Value = Convert::ToString(1);
 	dgv->RowCount = 1;
-
+	
 }
 private: System::Void btnDelLast_Click(System::Object^  sender, System::EventArgs^  e) {
+	//button for deleting last last column
 	if (dgv->ColumnCount != 2) {
 		dgv->ColumnCount -= 1;
 	}
@@ -676,6 +730,19 @@ private: System::Void btnDelAll_Click(System::Object^  sender, System::EventArgs
 			dgv->Rows[0]->Cells[size - i]->Value = Convert::ToString("");
 		}
 	}
+}
+private: System::Void txtBox_TextChanged(System::Object^  sender, System::EventArgs^  e) {
+	//if tetxBox changed then update history field
+	string *str = new string[100];
+	historyObj.load(str);
+
+
+	for(int i=0;i<(str->length())-1;i++) {
+		String^ MyString = gcnew String(str[i].c_str());
+		lstBox->Items->Add((Object^)MyString);
+	}
+
+
 }
 };
 }

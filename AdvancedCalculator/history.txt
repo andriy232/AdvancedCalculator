@@ -1,0 +1,4 @@
+binary 6 + 3
+unary fib(5)
+unary fib(5)
+unary root(5)
