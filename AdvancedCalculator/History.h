@@ -6,7 +6,7 @@ using namespace std;
 using namespace System;
 using namespace System::IO;
 using namespace System::Xml;
-
+//class for operating with history records and file history.txt
 ref class History
 {
 private:
@@ -14,65 +14,67 @@ private:
 	double arg1;
 	double arg2;
 public:
-	History() 
-	{
-		action = Convert::ToString("str");
-		arg1 = 0;
-		arg2 = 0;
-		/*ifstream infile("input.txt");
-		char buffer[100];
-		while (!infile.eof())
-		{
-			infile.getline(buffer, 100);
-			cout << buffer << endl;
-		}*/
+	History() {}
+	void create(double n1, string str, double n2, double res);
+	void create(string str, double n1, double res);
+	void load(string* arr);
+};
 
+void History::create(double n1, string str, double n2, double res)
+{
+	//open file for writing and put the binary operation
+	ofstream file("history.txt", std::ios_base::app);
+	file << "binary " << n1 << " " << str << " " << n2 << " = " << res << "\n";
+	file.close();
+}
+
+void History::create(string str, double n1, double res)
+{
+	//open file for writing and put the unary operation
+	ofstream file("history.txt", std::ios_base::app);
+	file << "unary " << str << "(" << n1 << ") = " << res << "\n";
+	file.close();
+}
+
+void History::load(string* arr)
+{
+a:ifstream file("history.txt");
+	if (!file) {
+		//if program cant open or find a file
+		System::Windows::Forms::MessageBox::Show(Convert::ToString("Cant open file!"));
 	}
-	void create(double n1, string str, double n2)
+	else
 	{
-		ofstream file("history.txt", std::ios_base::app);
-		file << 0 << n1 << " " << str << " " << n2 << "\n";
-		file.close();
-	}
-	void create(string str, double n1)
-	{
-		ofstream file("history.txt", std::ios_base::app);
-		file << 1 << str << "(" << n1 << ")\n";
-		file.close();
-	}
-	void load(string* arr)
-	{
-		ifstream file("history.txt");
+		//if program have a file
 		int i = 0;
+		int file_size = 0;
+		int history_size = 15;
+
 		while (!file.eof())
 		{
 			std::getline(file, arr[i]);
 			i++;
 		}
-		
-		//float arg1(0), arg2(0);
-		//string str, type;
-		//story st[100];
-		//int i = 0;
-		//while (!file.eof())
-		//{
-		//	file >> st[i].type;
-		//	if (st[i].type == 0) {
-		//		file >> st[i].func >> st[i].arg1 >> "\n";
-		//	}
-		//	else {
-		//		file >> st[i].arg1 >> st[i].func >> st[i].arg2 >> "\n";
-		//	}
-		//}
-		//
-		//file.close();
+		file_size = i;
+		file.close();
 
+		//if file have more than 15 record than clear all and put only last 15 records
+		if (file_size > history_size)
+		{
+			//open file and delete content
+			ofstream fileClean("history.txt", std::ofstream::out | std::ofstream::trunc);
+			fileClean.close();
+
+			//open file for writing
+			ofstream fileReWrite("history.txt", std::ios_base::app);
+			for (int i = file_size - history_size; i < file_size - 2; i++)
+			{
+				fileReWrite << arr[i] << "\n";
+			}
+			fileReWrite.close();
+			//we should go to start of this function because we already clean and rewrite file
+			//we must re-read array of strings to return them
+			goto a;
+		}
 	}
-};
-//struct story
-//{
-//	bool type;
-//	float arg1;
-//	float arg2;
-//	String func;
-//};
+}

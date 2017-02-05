@@ -3,6 +3,7 @@
 #include <vcclr.h>
 #include <fstream>
 #include <iostream>
+#include <sstream>
 #include "History.h"
 
 namespace AdvancedCalculator {
@@ -73,6 +74,9 @@ namespace AdvancedCalculator {
 	private: System::Windows::Forms::ListBox^  lstBox;
 	private: System::Windows::Forms::Label^  lblHistory;
 	private: System::Windows::Forms::Button^  btnClear;
+	private: System::Windows::Forms::Button^  btnAddLast;
+	private: System::Windows::Forms::Button^  btnShowMedian;
+
 
 
 
@@ -107,13 +111,13 @@ namespace AdvancedCalculator {
 			this->btn3 = (gcnew System::Windows::Forms::Button());
 			this->btn6 = (gcnew System::Windows::Forms::Button());
 			this->btnFib = (gcnew System::Windows::Forms::Button());
-			this->btn9 = (gcnew System::Windows::Forms::Button());
 			this->btnDeg = (gcnew System::Windows::Forms::Button());
 			this->btnDiv = (gcnew System::Windows::Forms::Button());
 			this->btnMulti = (gcnew System::Windows::Forms::Button());
 			this->btnMin = (gcnew System::Windows::Forms::Button());
 			this->btnPlus = (gcnew System::Windows::Forms::Button());
 			this->btnEq = (gcnew System::Windows::Forms::Button());
+			this->btn9 = (gcnew System::Windows::Forms::Button());
 			this->btnMed = (gcnew System::Windows::Forms::Button());
 			this->dgv = (gcnew System::Windows::Forms::DataGridView());
 			this->lblInfo = (gcnew System::Windows::Forms::Label());
@@ -122,6 +126,8 @@ namespace AdvancedCalculator {
 			this->lstBox = (gcnew System::Windows::Forms::ListBox());
 			this->lblHistory = (gcnew System::Windows::Forms::Label());
 			this->btnClear = (gcnew System::Windows::Forms::Button());
+			this->btnAddLast = (gcnew System::Windows::Forms::Button());
+			this->btnShowMedian = (gcnew System::Windows::Forms::Button());
 			this->tableLayoutPanel1->SuspendLayout();
 			(cli::safe_cast<System::ComponentModel::ISupportInitialize^>(this->dgv))->BeginInit();
 			this->SuspendLayout();
@@ -131,14 +137,13 @@ namespace AdvancedCalculator {
 			this->txtBox->BorderStyle = System::Windows::Forms::BorderStyle::None;
 			this->txtBox->Font = (gcnew System::Drawing::Font(L"Microsoft Sans Serif", 15.75F, System::Drawing::FontStyle::Regular, System::Drawing::GraphicsUnit::Point,
 				static_cast<System::Byte>(204)));
-			this->txtBox->Location = System::Drawing::Point(40, 44);
+			this->txtBox->Location = System::Drawing::Point(15, 12);
 			this->txtBox->Multiline = true;
 			this->txtBox->Name = L"txtBox";
-			this->txtBox->RightToLeft = System::Windows::Forms::RightToLeft::Yes;
-			this->txtBox->Size = System::Drawing::Size(182, 26);
+			this->txtBox->Size = System::Drawing::Size(167, 36);
 			this->txtBox->TabIndex = 0;
 			this->txtBox->TabStop = false;
-			this->txtBox->TextChanged += gcnew System::EventHandler(this, &form::txtBox_TextChanged);
+			this->txtBox->TextAlign = System::Windows::Forms::HorizontalAlignment::Right;
 			// 
 			// btn1
 			// 
@@ -152,16 +157,11 @@ namespace AdvancedCalculator {
 			// 
 			// tableLayoutPanel1
 			// 
-			this->tableLayoutPanel1->Anchor = static_cast<System::Windows::Forms::AnchorStyles>((System::Windows::Forms::AnchorStyles::Bottom | System::Windows::Forms::AnchorStyles::Right));
 			this->tableLayoutPanel1->ColumnCount = 4;
-			this->tableLayoutPanel1->ColumnStyles->Add((gcnew System::Windows::Forms::ColumnStyle(System::Windows::Forms::SizeType::Percent,
-				50)));
-			this->tableLayoutPanel1->ColumnStyles->Add((gcnew System::Windows::Forms::ColumnStyle(System::Windows::Forms::SizeType::Percent,
-				50)));
-			this->tableLayoutPanel1->ColumnStyles->Add((gcnew System::Windows::Forms::ColumnStyle(System::Windows::Forms::SizeType::Absolute,
-				47)));
-			this->tableLayoutPanel1->ColumnStyles->Add((gcnew System::Windows::Forms::ColumnStyle(System::Windows::Forms::SizeType::Absolute,
-				44)));
+			this->tableLayoutPanel1->ColumnStyles->Add((gcnew System::Windows::Forms::ColumnStyle()));
+			this->tableLayoutPanel1->ColumnStyles->Add((gcnew System::Windows::Forms::ColumnStyle()));
+			this->tableLayoutPanel1->ColumnStyles->Add((gcnew System::Windows::Forms::ColumnStyle()));
+			this->tableLayoutPanel1->ColumnStyles->Add((gcnew System::Windows::Forms::ColumnStyle()));
 			this->tableLayoutPanel1->Controls->Add(this->btnSign, 0, 4);
 			this->tableLayoutPanel1->Controls->Add(this->btn1, 0, 3);
 			this->tableLayoutPanel1->Controls->Add(this->btn4, 0, 2);
@@ -175,22 +175,22 @@ namespace AdvancedCalculator {
 			this->tableLayoutPanel1->Controls->Add(this->btn3, 2, 3);
 			this->tableLayoutPanel1->Controls->Add(this->btn6, 2, 2);
 			this->tableLayoutPanel1->Controls->Add(this->btnFib, 0, 0);
-			this->tableLayoutPanel1->Controls->Add(this->btn9, 2, 1);
 			this->tableLayoutPanel1->Controls->Add(this->btnDeg, 2, 0);
 			this->tableLayoutPanel1->Controls->Add(this->btnDiv, 3, 0);
 			this->tableLayoutPanel1->Controls->Add(this->btnMulti, 3, 1);
 			this->tableLayoutPanel1->Controls->Add(this->btnMin, 3, 2);
 			this->tableLayoutPanel1->Controls->Add(this->btnPlus, 3, 3);
 			this->tableLayoutPanel1->Controls->Add(this->btnEq, 3, 4);
-			this->tableLayoutPanel1->Location = System::Drawing::Point(15, 81);
+			this->tableLayoutPanel1->Controls->Add(this->btn9, 2, 1);
+			this->tableLayoutPanel1->Location = System::Drawing::Point(12, 61);
 			this->tableLayoutPanel1->Name = L"tableLayoutPanel1";
 			this->tableLayoutPanel1->RowCount = 5;
 			this->tableLayoutPanel1->RowStyles->Add((gcnew System::Windows::Forms::RowStyle()));
 			this->tableLayoutPanel1->RowStyles->Add((gcnew System::Windows::Forms::RowStyle()));
 			this->tableLayoutPanel1->RowStyles->Add((gcnew System::Windows::Forms::RowStyle()));
 			this->tableLayoutPanel1->RowStyles->Add((gcnew System::Windows::Forms::RowStyle()));
-			this->tableLayoutPanel1->RowStyles->Add((gcnew System::Windows::Forms::RowStyle(System::Windows::Forms::SizeType::Absolute, 20)));
-			this->tableLayoutPanel1->Size = System::Drawing::Size(177, 227);
+			this->tableLayoutPanel1->RowStyles->Add((gcnew System::Windows::Forms::RowStyle()));
+			this->tableLayoutPanel1->Size = System::Drawing::Size(177, 213);
 			this->tableLayoutPanel1->TabIndex = 2;
 			// 
 			// btnSign
@@ -313,16 +313,6 @@ namespace AdvancedCalculator {
 			this->btnFib->UseVisualStyleBackColor = true;
 			this->btnFib->Click += gcnew System::EventHandler(this, &form::btnFib_Click);
 			// 
-			// btn9
-			// 
-			this->btn9->Location = System::Drawing::Point(89, 45);
-			this->btn9->Name = L"btn9";
-			this->btn9->Size = System::Drawing::Size(38, 36);
-			this->btn9->TabIndex = 8;
-			this->btn9->Text = L"9";
-			this->btn9->UseVisualStyleBackColor = true;
-			this->btn9->Click += gcnew System::EventHandler(this, &form::btn9_Click);
-			// 
 			// btnDeg
 			// 
 			this->btnDeg->Location = System::Drawing::Point(89, 3);
@@ -335,7 +325,7 @@ namespace AdvancedCalculator {
 			// 
 			// btnDiv
 			// 
-			this->btnDiv->Location = System::Drawing::Point(136, 3);
+			this->btnDiv->Location = System::Drawing::Point(133, 3);
 			this->btnDiv->Name = L"btnDiv";
 			this->btnDiv->Size = System::Drawing::Size(37, 36);
 			this->btnDiv->TabIndex = 8;
@@ -345,7 +335,7 @@ namespace AdvancedCalculator {
 			// 
 			// btnMulti
 			// 
-			this->btnMulti->Location = System::Drawing::Point(136, 45);
+			this->btnMulti->Location = System::Drawing::Point(133, 45);
 			this->btnMulti->Name = L"btnMulti";
 			this->btnMulti->Size = System::Drawing::Size(37, 36);
 			this->btnMulti->TabIndex = 8;
@@ -355,7 +345,7 @@ namespace AdvancedCalculator {
 			// 
 			// btnMin
 			// 
-			this->btnMin->Location = System::Drawing::Point(136, 87);
+			this->btnMin->Location = System::Drawing::Point(133, 87);
 			this->btnMin->Name = L"btnMin";
 			this->btnMin->Size = System::Drawing::Size(37, 36);
 			this->btnMin->TabIndex = 8;
@@ -365,7 +355,7 @@ namespace AdvancedCalculator {
 			// 
 			// btnPlus
 			// 
-			this->btnPlus->Location = System::Drawing::Point(136, 129);
+			this->btnPlus->Location = System::Drawing::Point(133, 129);
 			this->btnPlus->Name = L"btnPlus";
 			this->btnPlus->Size = System::Drawing::Size(37, 36);
 			this->btnPlus->TabIndex = 8;
@@ -375,7 +365,7 @@ namespace AdvancedCalculator {
 			// 
 			// btnEq
 			// 
-			this->btnEq->Location = System::Drawing::Point(136, 171);
+			this->btnEq->Location = System::Drawing::Point(133, 171);
 			this->btnEq->Name = L"btnEq";
 			this->btnEq->Size = System::Drawing::Size(37, 36);
 			this->btnEq->TabIndex = 8;
@@ -383,11 +373,22 @@ namespace AdvancedCalculator {
 			this->btnEq->UseVisualStyleBackColor = true;
 			this->btnEq->Click += gcnew System::EventHandler(this, &form::btnEq_Click);
 			// 
+			// btn9
+			// 
+			this->btn9->Location = System::Drawing::Point(89, 45);
+			this->btn9->Name = L"btn9";
+			this->btn9->Size = System::Drawing::Size(38, 36);
+			this->btn9->TabIndex = 8;
+			this->btn9->Text = L"9";
+			this->btn9->UseVisualStyleBackColor = true;
+			this->btn9->Click += gcnew System::EventHandler(this, &form::btn9_Click);
+			// 
 			// btnMed
 			// 
-			this->btnMed->Location = System::Drawing::Point(12, 397);
+			this->btnMed->Location = System::Drawing::Point(12, 396);
+			this->btnMed->Margin = System::Windows::Forms::Padding(0);
 			this->btnMed->Name = L"btnMed";
-			this->btnMed->Size = System::Drawing::Size(133, 36);
+			this->btnMed->Size = System::Drawing::Size(151, 34);
 			this->btnMed->TabIndex = 14;
 			this->btnMed->Text = L"Calculate Median";
 			this->btnMed->UseVisualStyleBackColor = true;
@@ -401,9 +402,9 @@ namespace AdvancedCalculator {
 			this->dgv->AllowUserToResizeRows = false;
 			this->dgv->BackgroundColor = System::Drawing::SystemColors::Window;
 			this->dgv->ColumnHeadersHeightSizeMode = System::Windows::Forms::DataGridViewColumnHeadersHeightSizeMode::AutoSize;
-			this->dgv->Location = System::Drawing::Point(12, 336);
+			this->dgv->Location = System::Drawing::Point(12, 327);
 			this->dgv->Name = L"dgv";
-			this->dgv->Size = System::Drawing::Size(180, 47);
+			this->dgv->Size = System::Drawing::Size(322, 63);
 			this->dgv->TabIndex = 4;
 			this->dgv->CellBeginEdit += gcnew System::Windows::Forms::DataGridViewCellCancelEventHandler(this, &form::dgv_CellBeginEdit);
 			this->dgv->CellEndEdit += gcnew System::Windows::Forms::DataGridViewCellEventHandler(this, &form::dgv_CellEndEdit);
@@ -411,26 +412,29 @@ namespace AdvancedCalculator {
 			// lblInfo
 			// 
 			this->lblInfo->AutoSize = true;
-			this->lblInfo->Location = System::Drawing::Point(12, 320);
+			this->lblInfo->Location = System::Drawing::Point(12, 311);
 			this->lblInfo->Name = L"lblInfo";
 			this->lblInfo->Size = System::Drawing::Size(0, 13);
 			this->lblInfo->TabIndex = 5;
 			// 
 			// btnDelLast
 			// 
-			this->btnDelLast->Location = System::Drawing::Point(154, 397);
+			this->btnDelLast->BackgroundImage = (cli::safe_cast<System::Drawing::Image^>(resources->GetObject(L"btnDelLast.BackgroundImage")));
+			this->btnDelLast->BackgroundImageLayout = System::Windows::Forms::ImageLayout::Center;
+			this->btnDelLast->Location = System::Drawing::Point(169, 396);
+			this->btnDelLast->Margin = System::Windows::Forms::Padding(0);
 			this->btnDelLast->Name = L"btnDelLast";
-			this->btnDelLast->Size = System::Drawing::Size(77, 36);
+			this->btnDelLast->Size = System::Drawing::Size(38, 34);
 			this->btnDelLast->TabIndex = 6;
-			this->btnDelLast->Text = L"Delete last";
 			this->btnDelLast->UseVisualStyleBackColor = true;
 			this->btnDelLast->Click += gcnew System::EventHandler(this, &form::btnDelLast_Click);
 			// 
 			// btnDelAll
 			// 
-			this->btnDelAll->Location = System::Drawing::Point(237, 397);
+			this->btnDelAll->Location = System::Drawing::Point(257, 396);
+			this->btnDelAll->Margin = System::Windows::Forms::Padding(0);
 			this->btnDelAll->Name = L"btnDelAll";
-			this->btnDelAll->Size = System::Drawing::Size(77, 36);
+			this->btnDelAll->Size = System::Drawing::Size(77, 34);
 			this->btnDelAll->TabIndex = 7;
 			this->btnDelAll->Text = L"Delete all";
 			this->btnDelAll->UseVisualStyleBackColor = true;
@@ -440,15 +444,17 @@ namespace AdvancedCalculator {
 			// 
 			this->lstBox->BorderStyle = System::Windows::Forms::BorderStyle::None;
 			this->lstBox->FormattingEnabled = true;
-			this->lstBox->Location = System::Drawing::Point(228, 29);
+			this->lstBox->Location = System::Drawing::Point(198, 79);
 			this->lstBox->Name = L"lstBox";
-			this->lstBox->Size = System::Drawing::Size(120, 91);
+			this->lstBox->ScrollAlwaysVisible = true;
+			this->lstBox->Size = System::Drawing::Size(136, 195);
 			this->lstBox->TabIndex = 15;
+			this->lstBox->SelectedValueChanged += gcnew System::EventHandler(this, &form::lstBox_SelectedValueChanged);
 			// 
 			// lblHistory
 			// 
 			this->lblHistory->AutoSize = true;
-			this->lblHistory->Location = System::Drawing::Point(225, 10);
+			this->lblHistory->Location = System::Drawing::Point(195, 63);
 			this->lblHistory->Name = L"lblHistory";
 			this->lblHistory->Size = System::Drawing::Size(39, 13);
 			this->lblHistory->TabIndex = 16;
@@ -456,23 +462,48 @@ namespace AdvancedCalculator {
 			// 
 			// btnClear
 			// 
-			this->btnClear->Location = System::Drawing::Point(-4, 34);
+			this->btnClear->Location = System::Drawing::Point(198, 12);
 			this->btnClear->Name = L"btnClear";
 			this->btnClear->Size = System::Drawing::Size(38, 36);
 			this->btnClear->TabIndex = 16;
 			this->btnClear->Text = L"C";
 			this->btnClear->UseVisualStyleBackColor = true;
+			this->btnClear->Click += gcnew System::EventHandler(this, &form::btnClear_Click);
+			// 
+			// btnAddLast
+			// 
+			this->btnAddLast->BackgroundImage = (cli::safe_cast<System::Drawing::Image^>(resources->GetObject(L"btnAddLast.BackgroundImage")));
+			this->btnAddLast->BackgroundImageLayout = System::Windows::Forms::ImageLayout::Center;
+			this->btnAddLast->Location = System::Drawing::Point(213, 396);
+			this->btnAddLast->Margin = System::Windows::Forms::Padding(0);
+			this->btnAddLast->Name = L"btnAddLast";
+			this->btnAddLast->Size = System::Drawing::Size(38, 34);
+			this->btnAddLast->TabIndex = 6;
+			this->btnAddLast->UseVisualStyleBackColor = true;
+			this->btnAddLast->Click += gcnew System::EventHandler(this, &form::btnAddLast_Click);
+			// 
+			// btnShowMedian
+			// 
+			this->btnShowMedian->Location = System::Drawing::Point(125, 280);
+			this->btnShowMedian->Name = L"btnShowMedian";
+			this->btnShowMedian->Size = System::Drawing::Size(109, 23);
+			this->btnShowMedian->TabIndex = 17;
+			this->btnShowMedian->Text = L"Show median";
+			this->btnShowMedian->UseVisualStyleBackColor = true;
+			this->btnShowMedian->Click += gcnew System::EventHandler(this, &form::btnShowMedian_Click);
 			// 
 			// form
 			// 
 			this->AutoScaleDimensions = System::Drawing::SizeF(6, 13);
 			this->AutoScaleMode = System::Windows::Forms::AutoScaleMode::Font;
 			this->BackColor = System::Drawing::SystemColors::Window;
-			this->ClientSize = System::Drawing::Size(385, 446);
+			this->ClientSize = System::Drawing::Size(346, 440);
+			this->Controls->Add(this->btnShowMedian);
 			this->Controls->Add(this->btnClear);
 			this->Controls->Add(this->lblHistory);
 			this->Controls->Add(this->lstBox);
 			this->Controls->Add(this->btnDelAll);
+			this->Controls->Add(this->btnAddLast);
 			this->Controls->Add(this->btnDelLast);
 			this->Controls->Add(this->lblInfo);
 			this->Controls->Add(this->dgv);
@@ -494,9 +525,27 @@ namespace AdvancedCalculator {
 #pragma endregion
 
 
+private: System::Void form_Load(System::Object^  sender, System::EventArgs^  e) {
+	//Loading form
+	txtBox->Text = "";
+	txtBox->Tag = "";
 
+	//create table in datagridview
+	dgv->TopLeftHeaderCell->Value = "Numbers";
+	dgv->ColumnCount = 2;
+	dgv->Columns[0]->HeaderCell->Value = Convert::ToString(1);
+	dgv->RowCount = 1;
+	dgv->AutoResizeRowHeadersWidth(DataGridViewRowHeadersWidthSizeMode::AutoSizeToAllHeaders);
+	dgv->AutoResizeColumns();
 
+	//minimaze the window to hide median
+	minimazed = false;
+	this->Height = 356;
 
+	//load history from file and update listbox
+	updateHistoryList();
+};
+/*--------------------------Add a numbers---------------------------*/
 private: System::Void btn0_Click(System::Object^  sender, System::EventArgs^  e) {
 	txtBox->Text += "0";
 }
@@ -527,92 +576,139 @@ private: System::Void btn8_Click(System::Object^  sender, System::EventArgs^  e)
 private: System::Void btn9_Click(System::Object^  sender, System::EventArgs^  e) {
 	txtBox->Text += "9";
 }
-		 History historyObj;
-private: System::Void btnRoot_Click(System::Object^  sender, System::EventArgs^  e) {
-	historyObj.create("root", Convert::ToDouble(txtBox->Text));
-	if (txtBox->Text != "") {
-		txtBox->Text = Convert::ToString(Math::Sqrt(Convert::ToDouble(txtBox->Text)));
-	}
 	
-}
-int action;
+	History historyObj;
+	int action;
+/*--------------------------Standart calculator operations---------------------------*/
 private: System::Void btnPlus_Click(System::Object^  sender, System::EventArgs^  e) {
 	action = 1;//button for plus
 	if (txtBox->Text)
 		txtBox->Tag = txtBox->Text;
 	txtBox->Text = "";
-};
+}
 
 private: System::Void btnMin_Click(System::Object^  sender, System::EventArgs^  e) {
 	action = 2;//button for minus
 	if (txtBox->Text)
 		txtBox->Tag = txtBox->Text;
 	txtBox->Text = "";
-};
+}
 
 private: System::Void btnDiv_Click(System::Object^  sender, System::EventArgs^  e) {
 	action = 3;//button for dividing 
 	if (txtBox->Text)
 		txtBox->Tag = txtBox->Text;
 	txtBox->Text = "";
-};
+}
+
 private: System::Void btnMulti_Click(System::Object^  sender, System::EventArgs^  e) {
 	action = 4;//button for multiplying
 	if (txtBox->Text)
 		txtBox->Tag = txtBox->Text;
 	txtBox->Text = "";
-};
+}
+
 private: System::Void btnDeg_Click(System::Object^  sender, System::EventArgs^  e) {
 	action = 5;//raise in the degree
 	if (txtBox->Text != "")
 		txtBox->Tag = txtBox->Text;
 	txtBox->Text = "";
-};
+}
+
+private: System::Void btnClear_Click(System::Object^  sender, System::EventArgs^  e) {
+	//clear button
+	txtBox->Text = "";
+}
 
 private: System::Void btnEq_Click(System::Object^  sender, System::EventArgs^  e) {
-	//equal symbol
-	double text = Convert::ToDouble(txtBox->Text);
-	double tag = Convert::ToDouble(txtBox->Tag);
-
-	switch (action)
+	if (txtBox->Text != "" && txtBox->Tag != "")
 	{
-	case 1://plus operation
-		historyObj.create(Convert::ToDouble(txtBox->Tag), "+", Convert::ToDouble(txtBox->Text));
-		txtBox->Text = Convert::ToString(text + tag);
-		break;
-	case 2://minus operation
-		historyObj.create(Convert::ToDouble(txtBox->Tag), "-", Convert::ToDouble(txtBox->Text));
-		txtBox->Text = Convert::ToString(tag - text);
-		break;
-	case 3://divide operation
-		historyObj.create(Convert::ToDouble(txtBox->Tag), "/", Convert::ToDouble(txtBox->Text));
-		if (tag != 0)
-			txtBox->Text = Convert::ToString(tag / text);
-		break;
-	case 4://multiply operation
-		historyObj.create(Convert::ToDouble(txtBox->Tag), "*", Convert::ToDouble(txtBox->Text));
-		txtBox->Text = Convert::ToString(text * tag);
-		break;
-	case 5://degree operation
-		historyObj.create(Convert::ToDouble(txtBox->Tag), "^", Convert::ToDouble(txtBox->Text));
-		txtBox->Text = Convert::ToString(Math::Pow(tag, text));
-		break;
-	}
-};
+		//equal symbol
+		double text = Convert::ToDouble(txtBox->Text);
+		double tag = Convert::ToDouble(txtBox->Tag);
 
-private: System::Void btnFib_Click(System::Object^  sender, System::EventArgs^  e) {
-	//button to calculate fibonacci element
-	historyObj.create("fib", Convert::ToDouble(txtBox->Text));
-	double num = Convert::ToDouble(txtBox->Text);
-	if (num > 48) {
-		MessageBox::Show(Convert::ToString("Max Fibonacci element more than 47!"));
-	} else {
-		txtBox->Text = Convert::ToString(fibonaccy(num));
+		switch (action)
+		{
+		case 1://plus operation
+			txtBox->Text = Convert::ToString(text + tag);
+			historyObj.create(tag, "+", text, Convert::ToDouble(txtBox->Text));
+			break;
+		case 2://minus operation
+			txtBox->Text = Convert::ToString(tag - text);
+			historyObj.create(tag, "-", text, Convert::ToDouble(txtBox->Text));
+			break;
+		case 3://divide operation
+			if (tag != 0)
+				txtBox->Text = Convert::ToString(tag / text);
+			historyObj.create(tag, "/", text, Convert::ToDouble(txtBox->Text));
+			break;
+		case 4://multiply operation
+			txtBox->Text = Convert::ToString(text * tag);
+			historyObj.create(tag, "*", text, Convert::ToDouble(txtBox->Text));
+			break;
+		case 5://degree operation
+			txtBox->Text = Convert::ToString(Math::Pow(tag, text));
+			historyObj.create(tag, "^", text, Convert::ToDouble(txtBox->Text));
+			break;
+		}
+	}
+	updateHistoryList();
+}
+
+private: System::Void btnRoot_Click(System::Object^  sender, System::EventArgs^  e) {
+	//root button
+	if (txtBox->Text != "") {
+		double prev = Convert::ToDouble(txtBox->Text);
+		txtBox->Text = Convert::ToString(Math::Sqrt(Convert::ToDouble(txtBox->Text)));
+		historyObj.create("root", prev, Convert::ToDouble(txtBox->Text));
+	}
+	updateHistoryList();
+}
+
+private: System::Void btnSign_Click(System::Object^  sender, System::EventArgs^  e) {
+	//if number isnt 0 then * to -1
+	if (txtBox->Text != "") {
+		double num = Convert::ToDouble(txtBox->Text);
+		if (txtBox->Text != "0") {
+			txtBox->Text = Convert::ToString(num*(-1));
+		}
 	}
 }
+
+private: System::Void btnDot_Click(System::Object^  sender, System::EventArgs^  e) {
+	//if textbox isnt empty add an .
+	System::String ^ str = txtBox->Text;
+	if (str == "") {
+		//if string is empty
+		txtBox->Text += "0,";
+	}
+	else {
+		//if string is not empty
+		if (!str->Contains(",")) {
+			txtBox->Text += ",";
+		}
+	}
+}
+
+/*--------------------------Fibonaccy operation---------------------------*/
+private: System::Void btnFib_Click(System::Object^  sender, System::EventArgs^  e) {
+	//button to calculate fibonacci element
+	if (txtBox->Text != "") {
+		double num = Convert::ToDouble(txtBox->Text);
+		if (num > 48) {
+			MessageBox::Show(Convert::ToString("Max Fibonacci element more than 47!"));
+		}
+		else {
+			txtBox->Text = Convert::ToString(fibonaccy(num));
+		}
+		historyObj.create("fib", num, Convert::ToDouble(txtBox->Text));
+		updateHistoryList();
+	}
+}
+
 double fibonaccy(double num)
 {
-	//function to finding the Fibonacci sequence n-element
+	//function to finding the n-element of Fibonacci sequence 
 	if (num < 1) return 0;
 	if (num == 1) return 1;
 	unsigned long oldValue = 0;
@@ -625,24 +721,6 @@ double fibonaccy(double num)
 		oldValue = hold;
 	}
 	return(value);
-};
-private: System::Void btnSign_Click(System::Object^  sender, System::EventArgs^  e) {
-	//if number isnt 0 then * to -1
-	double num = Convert::ToDouble(txtBox->Text);
-	if (txtBox->Text != "0") {
-			txtBox->Text = Convert::ToString(num*(-1));
-	}
-}
-
-private: System::Void btnDot_Click(System::Object^  sender, System::EventArgs^  e) {
-	//if textbox isnt empty add an .
-	System::String ^ str = txtBox->Text;
-	if (str != "") {
-		if (!str->Contains(".")) {
-			txtBox->Text += ".";
-		}
-	}
-	else txtBox->Text += "0.";
 }
 
 void sort(int mas[], int n) {
@@ -655,6 +733,8 @@ void sort(int mas[], int n) {
 		mas[j + 1] = t;
 	}
 }
+
+/*-------------Code for Finding median of set of numbers in DataGridView------------------*/
 private: System::Void btnMed_Click(System::Object^  sender, System::EventArgs^  e) {
 	//button for finding median of set of numbers
 	int size = Convert::ToInt32(dgv->ColumnCount);
@@ -684,6 +764,7 @@ private: System::Void btnMed_Click(System::Object^  sender, System::EventArgs^  
 	//delete array
 	delete[] mas;
 }
+
 private: System::Void dgv_CellBeginEdit(System::Object^  sender, System::Windows::Forms::DataGridViewCellCancelEventArgs^  e) {
 	
 	if (Convert::ToString(dgv->Rows[0]->Cells[dgv->ColumnCount - 2]->Value) != "") {
@@ -695,6 +776,7 @@ private: System::Void dgv_CellBeginEdit(System::Object^  sender, System::Windows
 		dgv->Columns[i]->HeaderCell->Value = Convert::ToString(i + 1);
 	}
 }
+
 private: System::Void dgv_CellEndEdit(System::Object^  sender, System::Windows::Forms::DataGridViewCellEventArgs^  e) {
 	int q;
 	//check for errors when entering value in table
@@ -705,24 +787,22 @@ private: System::Void dgv_CellEndEdit(System::Object^  sender, System::Windows::
 	}
 	dgv->AutoResizeRowHeadersWidth(DataGridViewRowHeadersWidthSizeMode::AutoSizeToAllHeaders);
 	dgv->AutoResizeColumns();
+}
 
-}
-private: System::Void form_Load(System::Object^  sender, System::EventArgs^  e) {
-	//Loading form
-	txtBox->Text = Convert::ToString("0");
-	dgv->TopLeftHeaderCell->Value = "Numbers";
-	dgv->ColumnCount = 2;
-	dgv->Columns[0]->HeaderCell->Value = Convert::ToString(1);
-	dgv->RowCount = 1;
-	
-}
 private: System::Void btnDelLast_Click(System::Object^  sender, System::EventArgs^  e) {
 	//button for deleting last last column
 	if (dgv->ColumnCount != 2) {
 		dgv->ColumnCount -= 1;
 	}
 }
+
+private: System::Void btnAddLast_Click(System::Object^  sender, System::EventArgs^  e) {
+	//add a column to datagridview
+	dgv->ColumnCount += 1;
+}
+
 private: System::Void btnDelAll_Click(System::Object^  sender, System::EventArgs^  e) {
+	//deleting all elements from datagridview 
 	int size = Convert::ToInt32(dgv->ColumnCount)-1;
 	for (int i = 0; i < size; i++) {
 		if (dgv->ColumnCount != 2) {
@@ -731,18 +811,107 @@ private: System::Void btnDelAll_Click(System::Object^  sender, System::EventArgs
 		}
 	}
 }
-private: System::Void txtBox_TextChanged(System::Object^  sender, System::EventArgs^  e) {
+
+/*-------------Code for operating with history of operations in listbox------------------*/
+private: System::Void lstBox_SelectedValueChanged(System::Object^  sender, System::EventArgs^  e) {
+	//get the selected item from listbox
+	if (Convert::ToString(lstBox->SelectedItem) != "")
+	{
+		try
+		{
+			String^ Str = Convert::ToString(lstBox->SelectedItem);
+			string str = "";
+			//convert from system string to std string
+			MarshalString(Str, str);
+
+			//create istringstream
+			istringstream iss(str);
+			string word, func[5];
+			int i = 0;
+			bool type = 0;
+			//get the type
+			iss >> word;
+			if (word.find("unary") == std::string::npos) {
+				//if type is the binary
+				while (iss >> word) {
+					func[i] = word;
+					i++;
+					type = 1;
+				}
+			}
+			else {
+				//if type is unary
+				while (iss >> word) {
+					func[i] = word; i++;
+				}
+			}
+
+			//!--- leave for debug
+			//String^ MyString3 = gcnew String(func[2].c_str());
+			//String^ MyString5 = gcnew String(func[4].c_str());
+
+			double result;
+			std::string::size_type sz;     // alias of size_t
+
+			//show the strings
+			if (type == 1) {
+				//if we have binary operations
+				result = std::stod(func[4], &sz);
+			}
+			else {
+				//if type is unary
+				result = std::stod(func[2], &sz);
+			}
+			txtBox->Text = Convert::ToString(result);
+		}
+		catch (Exception^ e)
+		{
+			MessageBox::Show(e->Message, "Error!");
+		}
+	}
+}
+
+void updateHistoryList()
+{
 	//if tetxBox changed then update history field
-	string *str = new string[100];
+	string *str = new string[50];
+
+	//clear all previous the items from listBox
+	lstBox->Items->Clear();
+
+	//load the history record to listBox
 	historyObj.load(str);
-
-
-	for(int i=0;i<(str->length())-1;i++) {
+	for (int i = 0; i<(str->length()); i++)
+	{
+		//convert from std::string array to system::string
 		String^ MyString = gcnew String(str[i].c_str());
 		lstBox->Items->Add((Object^)MyString);
 	}
 
+}
 
+//additional function for converting 
+void MarshalString(String ^ s, string& os) {
+	using namespace Runtime::InteropServices;
+	const char* chars =
+		(const char*)(Marshal::StringToHGlobalAnsi(s)).ToPointer();
+	os = chars;
+	Marshal::FreeHGlobal(IntPtr((void*)chars));
+}
+
+bool minimazed;
+private: System::Void btnShowMedian_Click(System::Object^  sender, System::EventArgs^  e) {
+	//action for minimaze/maximize button
+	if (minimazed == false) {
+		this->Height = 483;
+		btnShowMedian->Text = "Hide median";
+		minimazed = true;
+	}
+	else {
+		this->Height = 356;
+		btnShowMedian->Text = "Show median";
+		minimazed = false;
+	}
 }
 };
 }
