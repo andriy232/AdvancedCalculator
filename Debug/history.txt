@@ -8,4 +8,3 @@ binary -2 + 6 = 4
 unary fib(4) = 3
 binary 0.02 + 6 = 6.02
 unary root(5) = 2.23607
-binary 5.46456e+08 + 6 = 5.46456e+08

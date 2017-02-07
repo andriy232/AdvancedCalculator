@@ -80,6 +80,7 @@ namespace AdvancedCalculator {
 
 
 
+
 	protected:
 
 	private:
@@ -137,13 +138,14 @@ namespace AdvancedCalculator {
 			this->txtBox->BorderStyle = System::Windows::Forms::BorderStyle::None;
 			this->txtBox->Font = (gcnew System::Drawing::Font(L"Microsoft Sans Serif", 15.75F, System::Drawing::FontStyle::Regular, System::Drawing::GraphicsUnit::Point,
 				static_cast<System::Byte>(204)));
-			this->txtBox->Location = System::Drawing::Point(15, 12);
+			this->txtBox->Location = System::Drawing::Point(15, 15);
 			this->txtBox->Multiline = true;
 			this->txtBox->Name = L"txtBox";
 			this->txtBox->Size = System::Drawing::Size(167, 36);
 			this->txtBox->TabIndex = 0;
 			this->txtBox->TabStop = false;
 			this->txtBox->TextAlign = System::Windows::Forms::HorizontalAlignment::Right;
+			this->txtBox->KeyPress += gcnew System::Windows::Forms::KeyPressEventHandler(this, &form::txtBox_KeyPress);
 			// 
 			// btn1
 			// 
@@ -484,7 +486,7 @@ namespace AdvancedCalculator {
 			// 
 			// btnShowMedian
 			// 
-			this->btnShowMedian->Location = System::Drawing::Point(125, 280);
+			this->btnShowMedian->Location = System::Drawing::Point(115, 280);
 			this->btnShowMedian->Name = L"btnShowMedian";
 			this->btnShowMedian->Size = System::Drawing::Size(109, 23);
 			this->btnShowMedian->TabIndex = 17;
@@ -586,7 +588,6 @@ private: System::Void btnPlus_Click(System::Object^  sender, System::EventArgs^ 
 		txtBox->Tag = txtBox->Text;
 	txtBox->Text = "";
 }
-
 private: System::Void btnMin_Click(System::Object^  sender, System::EventArgs^  e) {
 	action = 2;//button for minus
 	if (txtBox->Text)
@@ -912,6 +913,14 @@ private: System::Void btnShowMedian_Click(System::Object^  sender, System::Event
 		btnShowMedian->Text = "Show median";
 		minimazed = false;
 	}
+}
+private: System::Void txtBox_KeyPress(System::Object^  sender, System::Windows::Forms::KeyPressEventArgs^  e) {
+	//block to enter symbols
+	if ((e->KeyChar < 48 || e->KeyChar > 57) && e->KeyChar != '\b'/* && e->KeyChar != ','*/) {
+		e->Handled = true;
+	}
+
+
 }
 };
 }
